@@ -13,10 +13,6 @@ export default function App() {
   const [viewState, setViewState] = useState('loading'); // loading | gate | feed
   const { toasts, show } = useToast();
 
-  const [nsfwAccepted, setNsfwAccepted] = useState(() => {
-    return localStorage.getItem('nsfw_accepted') === 'true';
-  });
-
   const [bgUploadTask, setBgUploadTask] = useState({ status: 'idle', progress: 0, msg: '' });
   const [feedKey, setFeedKey] = useState(0); 
 
@@ -170,26 +166,6 @@ export default function App() {
           </div>
         ))}
       </div>
-
-      {/* NSFW Overlay Warning */}
-      {!nsfwAccepted && (
-        <div className="nsfw-overlay">
-          <div className="nsfw-modal">
-             <div className="nsfw-icon">🔞</div>
-             <h2>Предупреждение (18+)</h2>
-             <p>Этот сайт может содержать контент для взрослых. Подтвердите, что вам исполнилось 18 лет, чтобы продолжить.</p>
-             <button 
-               className="btn btn-primary"
-               onClick={() => {
-                 localStorage.setItem('nsfw_accepted', 'true');
-                 setNsfwAccepted(true);
-               }}
-             >
-               Мне исполнилось 18 лет
-             </button>
-          </div>
-        </div>
-      )}
 
       {showNotifs && (
         <NotificationsModal 
