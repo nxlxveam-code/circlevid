@@ -1,0 +1,55 @@
+services:
+  - type: web
+    name: circlevid-backend
+    runtime: node
+    region: frankfurt
+    plan: free
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 4000
+      - key: MONGODB_URI
+        sync: false
+      - key: R2_ACCOUNT_ID
+        sync: false
+      - key: R2_ACCESS_KEY_ID
+        sync: false
+      - key: R2_SECRET_ACCESS_KEY
+        sync: false
+      - key: R2_BUCKET_NAME
+        value: circlevid-videos
+      - key: R2_PUBLIC_URL
+        sync: false
+      - key: STORAGE_PROVIDER
+        value: r2
+      - key: VIEWS_PER_UPLOAD
+        value: 5
+      - key: BOOST_VIEWS
+        value: 10
+      - key: MAX_FILE_SIZE_MB
+        value: 10
+      - key: MIN_DURATION
+        value: 5
+      - key: MAX_DURATION
+        value: 45
+      - key: HIDE_SCORE_THRESHOLD
+        value: -10
+      - key: FRONTEND_URL
+        sync: false
+    healthCheckPath: /health
+
+  - type: web
+    name: circlevid-frontend
+    runtime: static
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: ./frontend/dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_URL
+        sync: false
