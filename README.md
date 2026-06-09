@@ -1,6 +1,7 @@
 # CircleVid
 
 Платформа для коротких круговых видео.
+circlevid-frontend.onrender.com
 
 ## Структура проекта
 
